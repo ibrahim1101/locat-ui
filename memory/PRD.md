@@ -32,27 +32,41 @@ Redesign the existing Locat self-hosted, end-to-end encrypted messaging applicat
 - No auth, crypto, relay, local database, messaging, or backend files were changed.
 - Mobile smoke test passed at 390×844: the real login screen rendered without horizontal overflow; submit target measured 48px.
 
+### 2026-10-09 — Stages 2–4: auth, inbox/drawer, conversation view
+- Login/registration presentation restyled (titanium panel, metal CTA); auth flow untouched.
+- Drawer + inbox restyled; compact privacy status card added.
+- ChatWindow conversation interface restyled: `.bubble-out` (brushed titanium) outgoing bubbles, `.bubble-in` (smoked glass) incoming, glass actions menu, steel read receipts, steel online presence, rounded composer with steel send button, day-divider pills, reply bar.
+- Steel accent tokens (`--steel`, `--steel-deep`, `.steel-button`, `.text-steel`, `.bg-steel`) added to `src/index.css` (dark + light).
+- Verified by testing agent (`/app/test_reports/iteration_2.json`): all messaging functionality intact end-to-end with real MariaDB + two live accounts (alice_demo/bob_demo).
+
+### 2026-10-09 — Brand mark replaced with exact approved artwork
+- `LocatMark` renders the exact client-supplied metallic split-face cat (`public/locat-mark.png`); favicon/PWA icons regenerated (`icon-192.png`, `icon-512.png`).
+- Capacitor native icon/splash sources generated in `/app/locat/assets/` with `docs/BRAND_ASSETS.md` (native projects are not in the branch; generation runs on the user's machine).
+
+### 2026-10-09 — locat-ui standalone UI kit (GitHub deliverable)
+- Created `/app/locat-ui/`: standalone React 19 + TS + Vite + Tailwind implementation of the approved design with real interactive components (no static images).
+- Screens: auth (login/register), chats list, direct chat, group chat, profile/bio, people discovery + requests, group creation, settings sheet (profile/appearance/storage/about), drawer, design gallery; loading/empty/error/offline states.
+- Integration contract: `src/adapter.ts` (`LocatUiAdapter`) + `src/types.ts`; mock adapter + data isolated in `src/mock/`; tokens mirrored 1:1 from the main app.
+- Docs: `README.md`, `docs/SCREEN_INVENTORY.md`, `docs/COMPONENT_MAP.md`, `docs/LOCAT_INTEGRATION.md`, `docs/TEST_RESULTS.md`.
+- Verification: tsc 0 errors, eslint 0 errors, Vitest 10/10, production build PASS; testing agent passed all 15 E2E items (`/app/test_reports/iteration_3.json`).
+- Delivery: user pushes via Emergent "Save to GitHub" (no GitHub credentials in this environment).
+
 ## Prioritized backlog
 
 ### P0
-- Apply the shared foundation to authentication and key-restore surfaces without changing auth behavior.
-- Refine responsive drawer/inbox navigation while preserving one canonical conversation list and existing state.
-- Refine conversation header, message bubbles, composer, attachment controls, delivery states, and scrolling.
-- Keep CI, TypeScript, lint, tests, build, and Android workflow green after each stage.
+- Stage 5 (main app): style Settings/Profile/Privacy/Appearance/Storage dialogs with the shared tokens, preserving functionality.
+- Stage 6 (main app): responsive validation (desktop/mobile/Android-oriented), drawer/inbox layout review, keyboard + safe-area QA.
 
 ### P1
-- Apply the system to profile, privacy, appearance, storage, group, and security dialogs.
 - Validate keyboard, safe areas, focus order, contrast, reduced motion, and long content on narrow browser widths.
 - Perform real Android Capacitor visual QA; do not claim emulator or APK validation from browser preview alone.
 
 ### P2
-- Replace or refine native launcher/splash/PWA assets after visual review and asset clearance.
+- Regenerate native launcher/splash assets on a machine with the android/ios projects (`npx capacitor-assets generate`, sources ready in `/app/locat/assets/`).
 - Add optional account-level privacy dashboard only for capabilities that are actually implemented.
 - Consider bundle splitting for the existing production chunk-size warning.
 
 ## Next tasks
-1. Stage 2: redesign Login and key-restore presentation using the shared tokens, with one primary action and preserved username/password flow.
-2. Stage 3: polish drawer and inbox responsive states.
-3. Stage 4: polish conversation view and composer.
-4. Stage 5: style existing dialogs/settings.
-5. Stage 6: cross-browser and Android-oriented validation, then document results.
+1. Stage 5: style existing dialogs/settings in the main app.
+2. Stage 6: cross-browser and Android-oriented validation, then document results.
+3. User pushes the workspace (including `/app/locat-ui`) to `ibrahim1101/locat-ui` via "Save to GitHub".
