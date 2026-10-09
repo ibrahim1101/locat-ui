@@ -51,11 +51,17 @@ Redesign the existing Locat self-hosted, end-to-end encrypted messaging applicat
 - Verification: tsc 0 errors, eslint 0 errors, Vitest 10/10, production build PASS; testing agent passed all 15 E2E items (`/app/test_reports/iteration_3.json`).
 - Delivery: user pushes via Emergent "Save to GitHub" (no GitHub credentials in this environment).
 
+### 2026-10-09 — Stages 5–6: settings dialogs + responsive validation
+- Styled ProfileDialog (glass selects, ABOUT YOU/PRIVACY kickers, titanium header, styled checkbox), StorageDialog (titanium panels, steel-shield Privacy nav, encrypted-backup kicker), FriendProfileDialog (smoked glass, LC chip, titanium bio card), GroupDialog (glass member rows, styled transfer select), NewConversationDialog (glass tablist/rows/chips).
+- Responsive fixes: sidebar inner container missing `w-full` (pre-existing in feat/locat-1.0) caused a dead strip on mobile inbox — fixed and verified 389px @ 390px viewport; friend-row LC code wrap fixed with truncate.
+- Verified by testing agent (`/app/test_reports/iteration_4.json`): all 10 items pass, dialogs fully functional, zero new console errors.
+- locat-ui kit: added `src/live/TrpcLocatAdapter.ts` — starter adapter pre-mapped to the app's real tRPC procedures (auth/users/conversations/messages) with `LiveCryptoHooks` TODO seams; integration doc updated.
+- Native icons: `@capacitor/assets generate --android` pipeline verified working in a throwaway project with the prepared `assets/` sources (android/ native project is not in the branch; generation runs on the user's machine per docs/BRAND_ASSETS.md).
+
 ## Prioritized backlog
 
 ### P0
-- Stage 5 (main app): style Settings/Profile/Privacy/Appearance/Storage dialogs with the shared tokens, preserving functionality.
-- Stage 6 (main app): responsive validation (desktop/mobile/Android-oriented), drawer/inbox layout review, keyboard + safe-area QA.
+- None remaining for the redesign scope. All six stages complete.
 
 ### P1
 - Validate keyboard, safe areas, focus order, contrast, reduced motion, and long content on narrow browser widths.
@@ -67,6 +73,6 @@ Redesign the existing Locat self-hosted, end-to-end encrypted messaging applicat
 - Consider bundle splitting for the existing production chunk-size warning.
 
 ## Next tasks
-1. Stage 5: style existing dialogs/settings in the main app.
-2. Stage 6: cross-browser and Android-oriented validation, then document results.
-3. User pushes the workspace (including `/app/locat-ui`) to `ibrahim1101/locat-ui` via "Save to GitHub".
+1. User pushes the workspace (including `/app/locat-ui`) to `ibrahim1101/locat-ui` via "Save to GitHub".
+2. Real Android Capacitor device QA after building the APK on the user's machine.
+3. Optional: wire `TrpcLocatAdapter` crypto hooks when integrating the kit into the main app.

@@ -16,9 +16,15 @@ encryption, database, and authentication are **not** replaced or modified.
 
 ## 2. Replace the mock adapter
 
-Implement `LocatUiAdapter` (`src/adapter.ts`) over your tRPC client and local
-encrypted store, then mount `<App adapter={yourAdapter} />` or wire the screens
-directly. Suggested mapping:
+**Starter provided:** `src/live/TrpcLocatAdapter.ts` already maps every
+`LocatUiAdapter` method to the real procedure names (`auth.login`,
+`users.search`, `conversations.createDirect`, `messages.send`, the
+`messages.subscribe` subscription, etc.) against a minimal `TrpcClientLike`
+interface. Copy it into the app, pass your vanilla tRPC client, and fill the
+marked `TODO(security)` hooks (`LiveCryptoHooks`) by delegating to the existing
+`lib/crypto` + `lib/localdb` code — never reimplement them.
+
+Manual mapping reference:
 
 | Adapter method | Real Locat equivalent |
 | --- | --- |
